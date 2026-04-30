@@ -12,6 +12,7 @@
 	let units = $state<{ id: number; nama: string }[]>([]);
 	let editId = $state<string | null>(null);
 	let editForm = $state({ nama: '', role: 'kontributor', unit: '' });
+	let newForm = $state({ email: '', password: '', nama: '', role: 'kontributor', unit: '' });
 	let loading = $state(false);
 
 	async function load() {
@@ -56,25 +57,25 @@
 {#if !editId}
 <div class="card">
 	<h2 class="card-title">Buat Akun Baru</h2>
-	<form method="POST" action="?/buat" use:enhance={() => { loading = true; return async ({ update }) => { loading = false; await update(); await load(); }; }} class="form-grid">
+	<form method="POST" action="?/buat" use:enhance={() => { loading = true; return async ({ update }) => { loading = false; await update(); newForm = { email: '', password: '', nama: '', role: 'kontributor', unit: '' }; await load(); }; }} class="form-grid">
 		<div class="fields-row">
 			<div class="field">
 				<label class="field-label" for="nama">Nama</label>
-				<input id="nama" type="text" bind:value={form.nama} required class="cek-input" placeholder="Nama lengkap" />
+				<input id="nama" type="text" bind:value={newForm.nama} required class="cek-input" placeholder="Nama lengkap" />
 			</div>
 			<div class="field">
 				<label class="field-label" for="email">Email</label>
-				<input id="email" type="email" bind:value={form.email} required class="cek-input" placeholder="email@sekolah.com" />
+				<input id="email" type="email" bind:value={newForm.email} required class="cek-input" placeholder="email@sekolah.com" />
 			</div>
 			<div class="field">
 				<label class="field-label" for="password">Password</label>
-				<input id="password" type="password" bind:value={form.password} required minlength={6} class="cek-input" placeholder="Min. 6 karakter" />
+				<input id="password" type="password" bind:value={newForm.password} required minlength={6} class="cek-input" placeholder="Min. 6 karakter" />
 			</div>
 		</div>
 		<div class="fields-row">
 			<div class="field">
 				<label class="field-label" for="role">Role</label>
-				<select id="role" bind:value={form.role} class="cek-input">
+				<select id="role" bind:value={newForm.role} class="cek-input">
 					<option value="kontributor">Kontributor</option>
 					<option value="admin_berita">Admin Berita</option>
 					<option value="superadmin">Super Admin</option>
@@ -82,7 +83,7 @@
 			</div>
 			<div class="field">
 				<label class="field-label" for="unit">Unit/Sektor</label>
-				<select id="unit" bind:value={form.unit} class="cek-input">
+				<select id="unit" bind:value={newForm.unit} class="cek-input">
 					<option value="">— Pilih Unit —</option>
 					{#each units as u}
 						<option value={u.nama}>{u.nama}</option>
