@@ -7,12 +7,12 @@
 	<title>Berita — SMKN 2 Tebo</title>
 </svelte:head>
 
-<div class="container page-header">
+<div class="wrap page-header">
 	<p class="eyebrow">📰 Informasi Terkini</p>
 	<h1 class="gradient-heading page-title">Berita & Pengumuman</h1>
 </div>
 
-<div class="container berita-body">
+<div class="wrap berita-body">
 	{#if data.berita.length === 0}
 		<div class="section-card empty-state">
 			<p class="empty-icon">📭</p>

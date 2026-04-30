@@ -9,7 +9,7 @@
 
 <!-- Hero -->
 <section class="hero-section">
-	<div class="container">
+	<div class="wrap">
 		<div class="hero-grid">
 			<!-- Copy -->
 			<div>
@@ -56,7 +56,7 @@
 </section>
 
 <!-- Berita Terbaru -->
-<section class="section-gap container">
+<section class="section-gap wrap">
 	<div class="section-card">
 		<p class="eyebrow">📰 Terkini</p>
 		<div class="section-header">
@@ -88,7 +88,7 @@
 </section>
 
 <!-- CTA -->
-<section class="section-gap container">
+<section class="section-gap wrap">
 	<div class="cta-dark">
 		<p class="eyebrow" style="color:rgba(255,255,255,0.5);">Butuh Bantuan?</p>
 		<h2 class="cta-title">Ada Pertanyaan?</h2>

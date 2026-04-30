@@ -15,12 +15,12 @@
 	<title>Kontak — SMKN 2 Tebo</title>
 </svelte:head>
 
-<div class="container page-header">
+<div class="wrap page-header">
 	<p class="eyebrow">💬 Hubungi Kami</p>
 	<h1 class="gradient-heading page-title">Kontak</h1>
 </div>
 
-<div class="container kontak-body">
+<div class="wrap kontak-body">
 	<div class="kontak-grid">
 		<!-- Info -->
 		<div class="kontak-info">

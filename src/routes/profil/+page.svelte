@@ -7,12 +7,12 @@
 	<title>Profil — SMKN 2 Tebo</title>
 </svelte:head>
 
-<div class="container page-header">
+<div class="wrap page-header">
 	<p class="eyebrow">🏫 Tentang Kami</p>
 	<h1 class="gradient-heading page-title">Profil Sekolah</h1>
 </div>
 
-<div class="container profil-body">
+<div class="wrap profil-body">
 	<div class="profil-grid">
 		<!-- Sidebar -->
 		<div class="sidebar">
