@@ -1,33 +1,31 @@
 <script lang="ts">
 	import type { PageData } from './$types';
 	let { data }: { data: PageData } = $props();
-	const b = data.berita;
-	const tanggal = new Date(b.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
 </script>
 
 <svelte:head>
-	<title>{b.judul} — SMKN 2 Tebo</title>
+	<title>{data.berita.judul} — SMKN 2 Tebo</title>
 </svelte:head>
 
 <div class="wrap page-header">
 	<a href="/berita" class="back-link">← Kembali ke Berita</a>
 	<div class="meta-row">
-		<span class="pill">📅 {tanggal}</span>
+		<span class="pill">📅 {new Date(data.berita.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
 		<span class="pill-orange">Berita</span>
 	</div>
-	<h1 class="gradient-heading detail-title">{b.judul}</h1>
-	{#if b.ringkasan}
-		<p class="detail-lead">{b.ringkasan}</p>
+	<h1 class="gradient-heading detail-title">{data.berita.judul}</h1>
+	{#if data.berita.ringkasan}
+		<p class="detail-lead">{data.berita.ringkasan}</p>
 	{/if}
 </div>
 
 <div class="wrap detail-body">
 	<div class="section-card">
-		{#if b.foto_url}
-			<img src={b.foto_url} alt={b.judul} class="detail-foto" />
+		{#if data.berita.foto_url}
+			<img src={data.berita.foto_url} alt={data.berita.judul} class="detail-foto" />
 		{/if}
-		{#if b.isi}
-			<div class="isi-konten">{b.isi}</div>
+		{#if data.berita.isi}
+			<div class="isi-konten">{data.berita.isi}</div>
 		{:else}
 			<p class="text-muted">Konten berita belum tersedia.</p>
 		{/if}
@@ -48,11 +46,9 @@
 	.meta-row { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem; }
 	.detail-title { font-size: clamp(1.75rem,4vw,2.75rem); }
 	.detail-lead { margin: 1rem 0 0; font-size: 1.05rem; color: var(--muted); line-height: 1.7; max-width: 48rem; }
-
 	.detail-body { padding-top: 2rem; padding-bottom: 5rem; display: flex; flex-direction: column; gap: 1.5rem; }
 	.detail-foto { width: 100%; max-height: 420px; object-fit: cover; border-radius: 0.85rem; margin-bottom: 1.5rem; display: block; }
 	.isi-konten { font-size: 0.97rem; line-height: 1.9; color: var(--ink); white-space: pre-line; }
-
 	.cta-row-inline { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; text-align: left; }
 	.cta-inline-title { margin: 0 0 0.25rem; font-weight: 800; font-size: 1rem; }
 	.cta-inline-desc  { margin: 0; font-size: 0.85rem; color: rgba(255,255,255,0.65); }

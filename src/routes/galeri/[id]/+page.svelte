@@ -45,8 +45,8 @@
 </div>
 
 {#if aktif}
-	<div class="lightbox" onclick={() => aktif = null} role="dialog" aria-modal="true">
-		<div class="lightbox-inner" onclick={(e) => e.stopPropagation()}>
+	<div class="lightbox" onclick={() => aktif = null} role="dialog" aria-modal="true" tabindex="-1" onkeydown={(e) => e.key === 'Escape' && (aktif = null)}>
+		<div class="lightbox-inner" onclick={(e) => e.stopPropagation()} role="document">
 			<button class="lb-close" onclick={() => aktif = null}>✕</button>
 			<img src={aktif.foto_url} alt={aktif.judul} class="lb-img" />
 			<div class="lb-info">

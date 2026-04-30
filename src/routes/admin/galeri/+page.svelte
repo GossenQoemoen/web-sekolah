@@ -152,7 +152,6 @@
 			<input id="unit-album" type="text" bind:value={albumForm.unit} class="cek-input" placeholder="Unit..." readonly={profile?.role === 'kontributor'} />
 		</div>
 		<div class="field field-btn">
-			<label class="field-label">&nbsp;</label>
 			<div class="form-actions">
 				<button type="submit" class="btn btn-primary btn-sm" disabled={loading}>
 					{editAlbumId ? 'Perbarui' : 'Buat Album'}

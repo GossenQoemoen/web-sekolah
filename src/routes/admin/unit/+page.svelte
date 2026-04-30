@@ -65,7 +65,6 @@
 			<input id="nama" type="text" bind:value={nama} required class="cek-input" placeholder="Contoh: Teknik Otomotif, Tata Usaha, OSIS..." />
 		</div>
 		<div class="field field-btn">
-			<label class="field-label">&nbsp;</label>
 			<button type="submit" class="btn btn-primary btn-sm" disabled={loading}>Tambah</button>
 		</div>
 	</form>
