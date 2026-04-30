@@ -64,8 +64,10 @@
 			{#each data.program as p, i}
 				<a href="/kompetensi/{p.slug}" class="komp-card" style="--accent:{accents[i % accents.length]}">
 					<div class="komp-icon">{icons[i % icons.length]}</div>
-					<h3 class="komp-nama">{p.nama}</h3>
-					<p class="komp-desc">{p.deskripsi ?? ''}</p>
+					<div class="komp-body">
+						<h3 class="komp-nama">{p.nama}</h3>
+						<p class="komp-desc">{p.deskripsi ?? ''}</p>
+					</div>
 					<div class="komp-footer">
 						<span class="komp-siswa">👥 {p.jumlah_siswa} siswa</span>
 						<span class="komp-read">Selengkapnya →</span>
@@ -136,7 +138,7 @@
 	.section-title { margin: 0; font-size: clamp(1.35rem,3vw,1.65rem); color: var(--green-900); letter-spacing: -0.02em; font-weight: 800; }
 
 	/* Kompetensi */
-	.komp-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px,1fr)); gap: 1rem; }
+	.komp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
 	.komp-card {
 		display: flex; flex-direction: column;
 		padding: 1.5rem; border-radius: 1rem; text-decoration: none;
@@ -147,12 +149,15 @@
 	}
 	.komp-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px -6px rgba(15,23,42,0.12); }
 	.komp-icon { font-size: 1.75rem; margin-bottom: 0.75rem; }
+	.komp-body { flex: 1; }
 	.komp-nama { margin: 0 0 0.5rem; font-size: 0.95rem; font-weight: 800; color: var(--ink); line-height: 1.4; }
-	.komp-desc { margin: 0; font-size: 0.82rem; color: var(--muted); line-height: 1.6; flex: 1;
+	.komp-desc { margin: 0; font-size: 0.82rem; color: var(--muted); line-height: 1.6;
 		display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 	.komp-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 1rem; }
 	.komp-siswa { font-size: 0.75rem; color: var(--muted); font-weight: 500; }
 	.komp-read { font-size: 0.78rem; font-weight: 700; color: var(--orange-600); }
+	@media (max-width: 768px) { .komp-grid { grid-template-columns: 1fr; } }
+	@media (min-width: 769px) and (max-width: 1024px) { .komp-grid { grid-template-columns: repeat(2, 1fr); } }
 
 	/* Berita */
 	.empty-state { text-align: center; padding: 3rem; color: var(--muted); }
