@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { PageData } from './$types';
 	let { data }: { data: PageData } = $props();
+	const p = data.profil;
 </script>
 
 <svelte:head>
@@ -20,18 +21,21 @@
 				<div class="logo-wrap">
 					<img src="/logo.png" alt="Logo SMKN 2 Tebo" class="logo-img" />
 				</div>
-				<h2 class="profil-name">{data.profil?.nama ?? 'SMKN 2 Tebo'}</h2>
-				<p class="profil-npsn">NPSN: {data.profil?.npsn ?? '-'}</p>
-				{#if data.profil?.akreditasi}
-					<span class="pill pill-akreditasi">✓ Akreditasi {data.profil.akreditasi}</span>
+				<h2 class="profil-name">{p?.nama ?? 'SMKN 2 Tebo'}</h2>
+				<p class="profil-npsn">NPSN: {p?.npsn ?? '-'}</p>
+				{#if p?.akreditasi}
+					<span class="pill pill-akreditasi">✓ Akreditasi {p.akreditasi}</span>
 				{/if}
 			</div>
 
 			<div class="float-card info-list">
 				{#each [
-					['📍','Alamat', data.profil?.alamat],
-					['🏆','Akreditasi', data.profil?.akreditasi],
-					['🔢','NPSN', data.profil?.npsn]
+					['🏫','Bentuk Pendidikan', p?.bentuk_pendidikan],
+					['👤','Kepala Sekolah', p?.kepala_sekolah],
+					['✉️','Email Kepsek', p?.email_kepsek],
+					['📞','Telepon', p?.telepon_kepsek],
+					['📍','Alamat', p?.alamat],
+					['🗺️','Koordinat', p?.koordinat],
 				] as [icon, label, val]}
 					<div class="info-row">
 						<span class="info-icon">{icon}</span>
@@ -46,17 +50,73 @@
 
 		<!-- Main -->
 		<div class="profil-main">
+			<!-- Statistik -->
 			<div class="section-card">
-				<p class="eyebrow">🎯 Visi</p>
-				<blockquote class="visi-quote">
-					"{data.profil?.visi ?? 'Visi sekolah belum diisi.'}"
-				</blockquote>
+				<p class="eyebrow">📊 Data Sekolah</p>
+				<div class="stats-grid">
+					{#each [
+						['👨‍🎓', p?.total_siswa ?? '-', 'Total Peserta Didik'],
+						['🏫', p?.jumlah_kelas ?? '-', 'Ruang Kelas'],
+						['📚', p?.jumlah_rombel ?? '-', 'Rombongan Belajar'],
+					] as [icon, val, label]}
+						<div class="stat-box">
+							<span class="stat-icon">{icon}</span>
+							<strong class="stat-val">{val}</strong>
+							<span class="stat-label">{label}</span>
+						</div>
+					{/each}
+				</div>
 			</div>
 
+			<!-- Infrastruktur -->
 			<div class="section-card">
-				<p class="eyebrow">🚀 Misi</p>
-				<p class="misi-text">{data.profil?.misi ?? 'Misi sekolah belum diisi.'}</p>
+				<p class="eyebrow">⚡ Infrastruktur</p>
+				<div class="infra-grid">
+					<div class="info-card info-card-orange">
+						<span class="info-icon">⚡</span>
+						<div>
+							<p class="info-label">Listrik</p>
+							<p class="info-val">{p?.sumber_listrik ?? '-'} · {p?.daya_listrik ?? '-'}</p>
+						</div>
+					</div>
+					<div class="info-card info-card-green">
+						<span class="info-icon">🌐</span>
+						<div>
+							<p class="info-label">Internet</p>
+							<p class="info-val">{p?.internet_jenis ?? '-'} · {p?.internet_kecepatan ?? '-'} · {p?.internet_operator ?? '-'}</p>
+						</div>
+					</div>
+				</div>
 			</div>
+
+			<!-- Program Keahlian -->
+			{#if data.program.length > 0}
+				<div class="section-card">
+					<p class="eyebrow">🎓 Program Keahlian</p>
+					<div class="program-list">
+						{#each data.program as prg}
+							<div class="program-row">
+								<span class="program-nama">{prg.nama}</span>
+								<span class="pill pill-orange">{prg.jumlah_siswa} siswa</span>
+							</div>
+						{/each}
+					</div>
+				</div>
+			{/if}
+
+			{#if p?.visi}
+				<div class="section-card">
+					<p class="eyebrow">🎯 Visi</p>
+					<blockquote class="visi-quote">"{p.visi}"</blockquote>
+				</div>
+			{/if}
+
+			{#if p?.misi}
+				<div class="section-card">
+					<p class="eyebrow">🚀 Misi</p>
+					<p class="misi-text">{p.misi}</p>
+				</div>
+			{/if}
 
 			<div class="cta-dark cta-row-inline">
 				<div>
@@ -102,16 +162,26 @@
 	.info-label { margin: 0; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
 	.info-val   { margin: 0.15rem 0 0; font-size: 0.88rem; font-weight: 600; color: var(--ink); }
 
+	.stats-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1rem; margin-top: 0.75rem; }
+	.stat-box { text-align: center; padding: 1rem; background: linear-gradient(135deg, var(--orange-50), #f0fdf4); border-radius: 1rem; border: 1px solid rgba(15,23,42,0.06); }
+	.stat-icon { font-size: 1.5rem; display: block; margin-bottom: 0.35rem; }
+	.stat-val  { display: block; font-size: 1.4rem; font-weight: 800; color: var(--orange-600); }
+	.stat-label { font-size: 0.72rem; color: var(--muted); font-weight: 600; }
+
+	.infra-grid { display: grid; gap: 0.75rem; margin-top: 0.75rem; }
+
+	.program-list { display: flex; flex-direction: column; gap: 0.6rem; margin-top: 0.75rem; }
+	.program-row { display: flex; align-items: center; justify-content: space-between; padding: 0.65rem 0.85rem; background: rgba(249,115,22,0.04); border-radius: 0.75rem; border: 1px solid rgba(249,115,22,0.1); }
+	.program-nama { font-size: 0.88rem; font-weight: 600; color: var(--ink); }
+
 	.misi-text { margin: 0; color: var(--muted); line-height: 1.8; white-space: pre-line; font-size: 0.95rem; }
 
-	.cta-row-inline {
-		display: flex; align-items: center; justify-content: space-between;
-		flex-wrap: wrap; gap: 1rem; text-align: left;
-	}
+	.cta-row-inline { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; text-align: left; }
 	.cta-inline-title { margin: 0 0 0.25rem; font-weight: 800; font-size: 1rem; }
 	.cta-inline-desc  { margin: 0; font-size: 0.85rem; color: rgba(255,255,255,0.65); }
 
 	@media (min-width: 900px) {
 		.profil-grid { grid-template-columns: 280px 1fr; }
+		.infra-grid { grid-template-columns: 1fr 1fr; }
 	}
 </style>
