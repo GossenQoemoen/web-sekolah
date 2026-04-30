@@ -58,5 +58,5 @@
 	.news-title   { margin: 0 0 0.35rem; font-size: 1rem; font-weight: 800; color: var(--ink); line-height: 1.4; }
 	.news-desc    { margin: 0; font-size: 0.88rem; color: var(--muted); line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 	.news-arrow   { flex-shrink: 0; font-size: 1.25rem; color: var(--orange-400); align-self: center; }
-	.news-thumb   { width: 72px; height: 56px; object-fit: cover; border-radius: 0.65rem; flex-shrink: 0; }
+	.news-thumb   { width: 100px; height: 80px; object-fit: cover; border-radius: 0.65rem; flex-shrink: 0; }
 </style>
