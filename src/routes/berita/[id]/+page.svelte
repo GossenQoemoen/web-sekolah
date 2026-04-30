@@ -15,6 +15,9 @@
 		{#if data.berita.profiles?.nama}
 			<span class="pill">👤 {data.berita.profiles.nama}</span>
 		{/if}
+		{#if data.berita.unit}
+			<span class="pill-unit">{data.berita.unit}</span>
+		{/if}
 	</div>
 	<h1 class="gradient-heading detail-title">{data.berita.judul}</h1>
 	{#if data.berita.ringkasan}
@@ -47,6 +50,7 @@
 	.back-link { font-size: 0.85rem; font-weight: 600; color: var(--orange-600); text-decoration: none; display: inline-block; margin-bottom: 1rem; }
 	.back-link:hover { text-decoration: underline; }
 	.meta-row { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem; }
+	.pill-unit { font-size: 0.78rem; font-weight: 600; color: #6366f1; background: rgba(99,102,241,0.08); border: 1px solid rgba(99,102,241,0.2); padding: 0.25rem 0.75rem; border-radius: 999px; }
 	.detail-title { font-size: clamp(1.75rem,4vw,2.75rem); }
 	.detail-lead { margin: 1rem 0 0; font-size: 1.05rem; color: var(--muted); line-height: 1.7; max-width: 48rem; }
 	.detail-body { padding-top: 2rem; padding-bottom: 5rem; display: flex; flex-direction: column; gap: 1.5rem; }
