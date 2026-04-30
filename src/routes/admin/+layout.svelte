@@ -29,6 +29,8 @@
 			<a href="/admin" class="nav-item">📰 Berita</a>
 			<a href="/admin/profil" class="nav-item">🏫 Profil</a>
 			<a href="/admin/guru" class="nav-item">👨🏫 Guru & Staf</a>
+			<a href="/admin/program" class="nav-item">🎓 Program Keahlian</a>
+			<a href="/admin/galeri" class="nav-item">📸 Galeri</a>
 		</nav>
 		<button onclick={logout} class="logout-btn">Keluar →</button>
 	</aside>

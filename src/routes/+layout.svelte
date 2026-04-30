@@ -9,6 +9,7 @@
 		{ href: '/', label: 'Beranda' },
 		{ href: '/profil', label: 'Profil' },
 		{ href: '/berita', label: 'Berita' },
+		{ href: '/galeri', label: 'Galeri' },
 		{ href: '/kontak', label: 'Kontak' }
 	];
 </script>
