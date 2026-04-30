@@ -2,7 +2,7 @@
 	import { supabase } from '$lib/supabase';
 	import { onMount } from 'svelte';
 
-	type Album = { id: number; judul: string; keterangan: string; unit: string; created_at: string; profiles: { nama: string } | null; galeri: { id: number }[] };
+	type Album = { id: string; judul: string; keterangan: string; unit: string; created_at: string; profiles: { nama: string } | null; galeri: { id: string }[] };
 
 	let list = $state<Album[]>([]);
 	let msg = $state('');
@@ -10,7 +10,7 @@
 	async function load() {
 		const { data, error } = await supabase
 			.from('album')
-			.select('id, judul, keterangan, unit, created_at, profiles(nama), galeri(id)')
+			.select('id, judul, keterangan, unit, created_at, profiles!album_author_profiles_fkey(nama), galeri(id)')
 			.eq('status', 'draft')
 			.order('created_at', { ascending: false });
 		if (error) msg = 'Error: ' + error.message;
@@ -19,13 +19,13 @@
 
 	onMount(load);
 
-	async function publish(id: number) {
+	async function publish(id: string) {
 		const { error } = await supabase.from('album').update({ status: 'published' }).eq('id', id);
 		if (error) msg = 'Error: ' + error.message;
 		else await load();
 	}
 
-	async function hapus(id: number) {
+	async function hapus(id: string) {
 		if (!confirm('Hapus album ini?')) return;
 		await supabase.from('album').delete().eq('id', id);
 		await load();

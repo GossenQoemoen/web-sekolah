@@ -1,16 +1,18 @@
 <script lang="ts">
 	import { supabase } from '$lib/supabase';
+	import { enhance } from '$app/forms';
 	import { onMount } from 'svelte';
+	import type { ActionData } from './$types';
 
-	type Akun = { id: string; nama: string; role: string; unit: string; created_at: string; email?: string };
+	type Akun = { id: string; nama: string; role: string; unit: string; created_at: string };
+
+	let { form }: { form: ActionData } = $props();
 
 	let list = $state<Akun[]>([]);
 	let units = $state<{ id: number; nama: string }[]>([]);
-	let form = $state({ email: '', password: '', nama: '', role: 'kontributor', unit: '' });
 	let editId = $state<string | null>(null);
 	let editForm = $state({ nama: '', role: 'kontributor', unit: '' });
 	let loading = $state(false);
-	let msg = $state('');
 
 	async function load() {
 		const { data } = await supabase.from('profiles').select('*').order('created_at');
@@ -21,23 +23,6 @@
 
 	onMount(load);
 
-	async function buatAkun(e: SubmitEvent) {
-		e.preventDefault();
-		loading = true;
-		const { data, error } = await supabase.auth.admin.createUser({
-			email: form.email,
-			password: form.password,
-			email_confirm: true
-		});
-		if (error) { msg = 'Error: ' + error.message; loading = false; return; }
-		await supabase.from('profiles').update({ nama: form.nama, role: form.role, unit: form.unit }).eq('id', data.user.id);
-		msg = 'Akun berhasil dibuat.';
-		form = { email: '', password: '', nama: '', role: 'kontributor', unit: '' };
-		loading = false;
-		await load();
-		setTimeout(() => msg = '', 3000);
-	}
-
 	function mulaiEdit(a: Akun) {
 		editId = a.id;
 		editForm = { nama: a.nama, role: a.role, unit: a.unit ?? '' };
@@ -47,16 +32,8 @@
 		e.preventDefault();
 		loading = true;
 		const { error } = await supabase.from('profiles').update(editForm).eq('id', editId);
-		msg = error ? 'Error: ' + error.message : 'Akun diperbarui.';
 		editId = null;
 		loading = false;
-		await load();
-		setTimeout(() => msg = '', 3000);
-	}
-
-	async function hapusAkun(id: string) {
-		if (!confirm('Hapus akun ini? Tindakan tidak bisa dibatalkan.')) return;
-		await supabase.auth.admin.deleteUser(id);
 		await load();
 	}
 
@@ -71,15 +48,15 @@
 	<h1 class="page-title">Kelola Akun</h1>
 </div>
 
-{#if msg}
-	<div class="msg-box {msg.startsWith('Error') ? 'error' : 'success'}">{msg}</div>
+{#if form?.msg}
+	<div class="msg-box {form.msg.startsWith('Error') ? 'error' : 'success'}">{form.msg}</div>
 {/if}
 
 <!-- Form Buat Akun -->
 {#if !editId}
 <div class="card">
 	<h2 class="card-title">Buat Akun Baru</h2>
-	<form onsubmit={buatAkun} class="form-grid">
+	<form method="POST" action="?/buat" use:enhance={() => { loading = true; return async ({ update }) => { loading = false; await update(); await load(); }; }} class="form-grid">
 		<div class="fields-row">
 			<div class="field">
 				<label class="field-label" for="nama">Nama</label>
@@ -177,7 +154,10 @@
 					</div>
 					<div class="akun-actions">
 						<button onclick={() => mulaiEdit(a)} class="btn btn-secondary btn-sm">Edit</button>
-						<button onclick={() => hapusAkun(a.id)} class="btn-hapus">Hapus</button>
+						<form method="POST" action="?/hapus" use:enhance={() => { return async ({ update }) => { await update(); await load(); }; }} style="display:inline">
+							<input type="hidden" name="id" value={a.id} />
+							<button type="submit" class="btn-hapus" onclick={(e) => { if (!confirm('Hapus akun ini?')) e.preventDefault(); }}>Hapus</button>
+						</form>
 					</div>
 				</div>
 			{/each}
