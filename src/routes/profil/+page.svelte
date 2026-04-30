@@ -50,6 +50,7 @@
 
 		<!-- Main -->
 		<div class="profil-main">
+
 			<!-- Statistik -->
 			<div class="section-card">
 				<p class="eyebrow">📊 Data Sekolah</p>
@@ -67,6 +68,53 @@
 					{/each}
 				</div>
 			</div>
+
+			<!-- Sambutan Kepala Sekolah -->
+			{#if p?.sambutan}
+				<div class="section-card">
+					<p class="eyebrow">🎙️ Sambutan Kepala Sekolah</p>
+					<div class="sambutan-wrap">
+						<div class="sambutan-avatar">
+							<div class="avatar-circle">{p.kepala_sekolah?.[0] ?? 'K'}</div>
+							<div>
+								<p class="sambutan-nama">{p.kepala_sekolah ?? 'Kepala Sekolah'}</p>
+								<p class="sambutan-jabatan">Kepala Sekolah</p>
+							</div>
+						</div>
+						<blockquote class="sambutan-text">"{p.sambutan}"</blockquote>
+					</div>
+				</div>
+			{/if}
+
+			<!-- Visi & Misi -->
+			{#if p?.visi || p?.misi}
+				<div class="section-card">
+					<p class="eyebrow">🎯 Visi & Misi</p>
+					{#if p?.visi}
+						<p class="vm-label">Visi</p>
+						<blockquote class="visi-quote">"{p.visi}"</blockquote>
+					{/if}
+					{#if p?.misi}
+						<p class="vm-label" style="margin-top:1.25rem">Misi</p>
+						<p class="misi-text">{p.misi}</p>
+					{/if}
+				</div>
+			{/if}
+
+			<!-- Program Keahlian -->
+			{#if data.program.length > 0}
+				<div class="section-card">
+					<p class="eyebrow">🎓 Program Keahlian</p>
+					<div class="program-list">
+						{#each data.program as prg}
+							<div class="program-row">
+								<span class="program-nama">{prg.nama}</span>
+								<span class="pill pill-orange">{prg.jumlah_siswa} siswa</span>
+							</div>
+						{/each}
+					</div>
+				</div>
+			{/if}
 
 			<!-- Infrastruktur -->
 			<div class="section-card">
@@ -89,32 +137,28 @@
 				</div>
 			</div>
 
-			<!-- Program Keahlian -->
-			{#if data.program.length > 0}
+			<!-- Guru & Staf -->
+			{#if data.guru.length > 0}
 				<div class="section-card">
-					<p class="eyebrow">🎓 Program Keahlian</p>
-					<div class="program-list">
-						{#each data.program as prg}
-							<div class="program-row">
-								<span class="program-nama">{prg.nama}</span>
-								<span class="pill pill-orange">{prg.jumlah_siswa} siswa</span>
+					<p class="eyebrow">👨‍🏫 Guru & Staf</p>
+					<div class="guru-grid">
+						{#each data.guru as g}
+							<div class="guru-card">
+								<div class="guru-avatar">
+									{#if g.foto_url}
+										<img src={g.foto_url} alt={g.nama} class="guru-foto" />
+									{:else}
+										<span class="guru-initial">{g.nama[0]}</span>
+									{/if}
+								</div>
+								<div class="guru-info">
+									<p class="guru-nama">{g.nama}</p>
+									{#if g.jabatan}<p class="guru-jabatan">{g.jabatan}</p>{/if}
+									{#if g.mapel}<span class="pill pill-sm">{g.mapel}</span>{/if}
+								</div>
 							</div>
 						{/each}
 					</div>
-				</div>
-			{/if}
-
-			{#if p?.visi}
-				<div class="section-card">
-					<p class="eyebrow">🎯 Visi</p>
-					<blockquote class="visi-quote">"{p.visi}"</blockquote>
-				</div>
-			{/if}
-
-			{#if p?.misi}
-				<div class="section-card">
-					<p class="eyebrow">🚀 Misi</p>
-					<p class="misi-text">{p.misi}</p>
 				</div>
 			{/if}
 
@@ -132,7 +176,6 @@
 <style>
 	.page-title { font-size: clamp(2rem,5vw,3rem); margin-bottom: 0; }
 	.profil-body { padding-top: 2rem; padding-bottom: 5rem; }
-
 	.profil-grid { display: grid; gap: 1.5rem; grid-template-columns: 1fr; }
 	.sidebar { display: flex; flex-direction: column; gap: 1.25rem; }
 	.profil-main { display: flex; flex-direction: column; gap: 1.25rem; }
@@ -168,13 +211,40 @@
 	.stat-val  { display: block; font-size: 1.4rem; font-weight: 800; color: var(--orange-600); }
 	.stat-label { font-size: 0.72rem; color: var(--muted); font-weight: 600; }
 
-	.infra-grid { display: grid; gap: 0.75rem; margin-top: 0.75rem; }
+	/* Sambutan */
+	.sambutan-wrap { margin-top: 0.75rem; }
+	.sambutan-avatar { display: flex; align-items: center; gap: 0.85rem; margin-bottom: 1rem; }
+	.avatar-circle {
+		width: 48px; height: 48px; border-radius: 50%; flex-shrink: 0;
+		background: linear-gradient(135deg, var(--orange-500), var(--green-600));
+		display: flex; align-items: center; justify-content: center;
+		color: white; font-weight: 800; font-size: 1.1rem;
+	}
+	.sambutan-nama { margin: 0; font-size: 0.9rem; font-weight: 800; color: var(--ink); }
+	.sambutan-jabatan { margin: 0.1rem 0 0; font-size: 0.75rem; color: var(--muted); }
+	.sambutan-text { margin: 0; padding: 1rem 1.25rem; border-left: 4px solid var(--orange-500); background: rgba(249,115,22,0.05); border-radius: 0 0.75rem 0.75rem 0; font-style: italic; color: var(--ink); line-height: 1.8; font-size: 0.95rem; }
 
+	/* Visi Misi */
+	.vm-label { margin: 0 0 0.5rem; font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--green-700); }
+	.misi-text { margin: 0; color: var(--muted); line-height: 1.8; white-space: pre-line; font-size: 0.95rem; }
+
+	/* Program */
 	.program-list { display: flex; flex-direction: column; gap: 0.6rem; margin-top: 0.75rem; }
 	.program-row { display: flex; align-items: center; justify-content: space-between; padding: 0.65rem 0.85rem; background: rgba(249,115,22,0.04); border-radius: 0.75rem; border: 1px solid rgba(249,115,22,0.1); }
 	.program-nama { font-size: 0.88rem; font-weight: 600; color: var(--ink); }
 
-	.misi-text { margin: 0; color: var(--muted); line-height: 1.8; white-space: pre-line; font-size: 0.95rem; }
+	/* Infrastruktur */
+	.infra-grid { display: grid; gap: 0.75rem; margin-top: 0.75rem; }
+
+	/* Guru */
+	.guru-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px,1fr)); gap: 1rem; margin-top: 0.75rem; }
+	.guru-card { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 1.25rem 1rem; background: #f8fafc; border-radius: 1rem; border: 1px solid rgba(15,23,42,0.06); }
+	.guru-avatar { width: 64px; height: 64px; border-radius: 50%; overflow: hidden; margin-bottom: 0.75rem; background: linear-gradient(135deg, var(--orange-50), #f0fdf4); display: flex; align-items: center; justify-content: center; border: 2px solid rgba(249,115,22,0.2); }
+	.guru-foto { width: 100%; height: 100%; object-fit: cover; }
+	.guru-initial { font-size: 1.4rem; font-weight: 800; color: var(--orange-600); }
+	.guru-info { width: 100%; }
+	.guru-nama { margin: 0 0 0.2rem; font-size: 0.85rem; font-weight: 700; color: var(--ink); }
+	.guru-jabatan { margin: 0 0 0.4rem; font-size: 0.75rem; color: var(--muted); }
 
 	.cta-row-inline { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; text-align: left; }
 	.cta-inline-title { margin: 0 0 0.25rem; font-weight: 800; font-size: 1rem; }

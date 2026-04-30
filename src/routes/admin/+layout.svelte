@@ -28,6 +28,7 @@
 		<nav class="sidebar-nav">
 			<a href="/admin" class="nav-item">📰 Berita</a>
 			<a href="/admin/profil" class="nav-item">🏫 Profil</a>
+			<a href="/admin/guru" class="nav-item">👨🏫 Guru & Staf</a>
 		</nav>
 		<button onclick={logout} class="logout-btn">Keluar →</button>
 	</aside>

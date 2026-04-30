@@ -7,7 +7,7 @@
 		email_kepsek: '', telepon_kepsek: '', sumber_listrik: '', daya_listrik: '',
 		internet_jenis: '', internet_kecepatan: '', internet_operator: '',
 		total_siswa: 0, jumlah_rombel: 0, jumlah_kelas: 0,
-		alamat: '', koordinat: '', akreditasi: '', visi: '', misi: ''
+		alamat: '', koordinat: '', akreditasi: '', visi: '', misi: '', sambutan: ''
 	});
 	let profilId = $state<number | null>(null);
 	let loading = $state(false);
@@ -87,8 +87,12 @@
 	{/each}
 
 	<div class="card">
-		<h2 class="card-title">Visi & Misi</h2>
+		<h2 class="card-title">Visi, Misi & Sambutan</h2>
 		<div class="field">
+			<label class="field-label" for="sambutan">Sambutan Kepala Sekolah</label>
+			<textarea id="sambutan" rows="4" bind:value={form.sambutan} class="cek-input" placeholder="Tulis sambutan kepala sekolah..."></textarea>
+		</div>
+		<div class="field" style="margin-top:1rem">
 			<label class="field-label" for="visi">Visi</label>
 			<textarea id="visi" rows="3" bind:value={form.visi} class="cek-input"></textarea>
 		</div>
