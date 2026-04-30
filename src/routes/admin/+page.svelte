@@ -11,7 +11,8 @@
 	let msg = $state('');
 
 	async function load() {
-		const { data } = await supabase.from('berita').select('*').order('created_at', { ascending: false });
+		const { data, error } = await supabase.from('berita').select('*').order('created_at', { ascending: false });
+		if (error) msg = 'Error load: ' + error.message;
 		list = data ?? [];
 	}
 
@@ -21,11 +22,11 @@
 		e.preventDefault();
 		loading = true;
 		if (editId) {
-			await supabase.from('berita').update(form).eq('id', editId);
-			msg = 'Berita diperbarui.';
+			const { error } = await supabase.from('berita').update(form).eq('id', editId);
+			msg = error ? 'Error: ' + error.message : 'Berita diperbarui.';
 		} else {
-			await supabase.from('berita').insert(form);
-			msg = 'Berita ditambahkan.';
+			const { error } = await supabase.from('berita').insert(form);
+			msg = error ? 'Error: ' + error.message : 'Berita ditambahkan.';
 		}
 		form = { judul: '', ringkasan: '', isi: '' };
 		editId = null;
