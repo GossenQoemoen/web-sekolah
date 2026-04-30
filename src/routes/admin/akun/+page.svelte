@@ -61,21 +61,21 @@
 		<div class="fields-row">
 			<div class="field">
 				<label class="field-label" for="nama">Nama</label>
-				<input id="nama" type="text" bind:value={newForm.nama} required class="cek-input" placeholder="Nama lengkap" />
+				<input id="nama" name="nama" type="text" bind:value={newForm.nama} required class="cek-input" placeholder="Nama lengkap" />
 			</div>
 			<div class="field">
 				<label class="field-label" for="email">Email</label>
-				<input id="email" type="email" bind:value={newForm.email} required class="cek-input" placeholder="email@sekolah.com" />
+				<input id="email" name="email" type="email" bind:value={newForm.email} required class="cek-input" placeholder="email@sekolah.com" />
 			</div>
 			<div class="field">
 				<label class="field-label" for="password">Password</label>
-				<input id="password" type="password" bind:value={newForm.password} required minlength={6} class="cek-input" placeholder="Min. 6 karakter" />
+				<input id="password" name="password" type="password" bind:value={newForm.password} required minlength={6} class="cek-input" placeholder="Min. 6 karakter" />
 			</div>
 		</div>
 		<div class="fields-row">
 			<div class="field">
 				<label class="field-label" for="role">Role</label>
-				<select id="role" bind:value={newForm.role} class="cek-input">
+				<select id="role" name="role" bind:value={newForm.role} class="cek-input">
 					<option value="kontributor">Kontributor</option>
 					<option value="admin_berita">Admin Berita</option>
 					<option value="superadmin">Super Admin</option>
@@ -83,7 +83,7 @@
 			</div>
 			<div class="field">
 				<label class="field-label" for="unit">Unit/Sektor</label>
-				<select id="unit" bind:value={newForm.unit} class="cek-input">
+				<select id="unit" name="unit" bind:value={newForm.unit} class="cek-input">
 					<option value="">— Pilih Unit —</option>
 					{#each units as u}
 						<option value={u.nama}>{u.nama}</option>
