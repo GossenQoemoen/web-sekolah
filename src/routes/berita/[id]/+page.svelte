@@ -23,6 +23,9 @@
 
 <div class="wrap detail-body">
 	<div class="section-card">
+		{#if b.foto_url}
+			<img src={b.foto_url} alt={b.judul} class="detail-foto" />
+		{/if}
 		{#if b.isi}
 			<div class="isi-konten">{b.isi}</div>
 		{:else}
@@ -47,6 +50,7 @@
 	.detail-lead { margin: 1rem 0 0; font-size: 1.05rem; color: var(--muted); line-height: 1.7; max-width: 48rem; }
 
 	.detail-body { padding-top: 2rem; padding-bottom: 5rem; display: flex; flex-direction: column; gap: 1.5rem; }
+	.detail-foto { width: 100%; max-height: 420px; object-fit: cover; border-radius: 0.85rem; margin-bottom: 1.5rem; display: block; }
 	.isi-konten { font-size: 0.97rem; line-height: 1.9; color: var(--ink); white-space: pre-line; }
 
 	.cta-row-inline { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; text-align: left; }
