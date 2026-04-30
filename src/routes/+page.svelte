@@ -87,6 +87,26 @@
 	</div>
 </section>
 
+<!-- Kompetensi Keahlian -->
+<section class="section-gap wrap">
+	<div class="section-card">
+		<p class="eyebrow">🎓 Program Kami</p>
+		<div class="section-header">
+			<h2 class="section-title">Kompetensi Keahlian</h2>
+			<a href="/kompetensi" class="btn btn-secondary btn-sm">Lihat Semua →</a>
+		</div>
+		<div class="komp-grid">
+			{#each data.program as p, i}
+				<div class="komp-card komp-card-{i % 4}">
+					<div class="komp-icon">{['⚙️','🔧','🔩','📊','💰','🎨'][i % 6]}</div>
+					<h3 class="komp-nama">{p.nama}</h3>
+					<p class="komp-siswa">{p.jumlah_siswa} siswa</p>
+				</div>
+			{/each}
+		</div>
+	</div>
+</section>
+
 <!-- CTA -->
 <section class="section-gap wrap">
 	<div class="cta-dark">
@@ -140,6 +160,17 @@
 
 	.cta-title { margin: 0 0 0.75rem; font-size: clamp(1.5rem,3vw,2rem); font-weight: 800; letter-spacing: -0.02em; }
 	.cta-desc  { margin: 0 auto 1.5rem; color: rgba(255,255,255,0.7); max-width: 32rem; font-size: 0.95rem; }
+
+	.komp-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px,1fr)); gap: 1rem; }
+	.komp-card { padding: 1.25rem; border-radius: 0.85rem; border: 1px solid rgba(15,23,42,0.07); background: #f8fafc; transition: transform 0.15s, box-shadow 0.15s; }
+	.komp-card:hover { transform: translateY(-2px); box-shadow: 0 4px 16px -4px rgba(15,23,42,0.12); }
+	.komp-card-0 { border-top: 3px solid var(--orange-500); }
+	.komp-card-1 { border-top: 3px solid var(--green-600); }
+	.komp-card-2 { border-top: 3px solid #6366f1; }
+	.komp-card-3 { border-top: 3px solid #0ea5e9; }
+	.komp-icon { font-size: 1.75rem; margin-bottom: 0.75rem; }
+	.komp-nama { margin: 0 0 0.4rem; font-size: 0.9rem; font-weight: 700; color: var(--ink); line-height: 1.4; }
+	.komp-siswa { margin: 0; font-size: 0.78rem; color: var(--muted); font-weight: 500; }
 
 	@media (min-width: 900px) {
 		.hero-grid { grid-template-columns: 1.05fr 0.95fr; }
