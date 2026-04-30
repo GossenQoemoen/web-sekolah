@@ -25,7 +25,7 @@
 			{#each data.galeri as g}
 				<button class="galeri-item" onclick={() => aktif = g} type="button">
 					<img src={g.foto_url} alt={g.judul} class="galeri-img" loading="lazy" />
-					<div class="galeri-overlay">
+					<div class="galeri-caption">
 						<p class="galeri-judul">{g.judul}</p>
 						{#if g.keterangan}<p class="galeri-ket">{g.keterangan}</p>{/if}
 					</div>
@@ -64,18 +64,14 @@
 		border-radius: 1rem; overflow: hidden;
 		box-shadow: 0 4px 14px -6px rgba(15,23,42,0.12);
 		transition: transform 0.2s, box-shadow 0.2s;
-		background: none;
+		background: white;
+		text-align: left;
 	}
 	.galeri-item:hover { transform: translateY(-3px); box-shadow: 0 12px 28px -8px rgba(234,88,12,0.2); }
 	.galeri-img { width: 100%; height: 200px; object-fit: cover; display: block; }
-	.galeri-overlay {
-		position: absolute; bottom: 0; left: 0; right: 0;
-		padding: 2rem 1rem 1rem;
-		background: linear-gradient(to top, rgba(15,23,42,0.75), transparent);
-		text-align: left;
-	}
-	.galeri-judul { margin: 0; font-size: 0.88rem; font-weight: 700; color: white; }
-	.galeri-ket   { margin: 0.2rem 0 0; font-size: 0.75rem; color: rgba(255,255,255,0.75); }
+	.galeri-caption { padding: 0.85rem 1rem; }
+	.galeri-judul { margin: 0; font-size: 0.88rem; font-weight: 700; color: var(--ink); line-height: 1.4; }
+	.galeri-ket   { margin: 0.3rem 0 0; font-size: 0.75rem; color: var(--muted); line-height: 1.5; }
 
 	/* Lightbox */
 	.lightbox {
