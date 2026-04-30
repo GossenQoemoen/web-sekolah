@@ -12,6 +12,9 @@
 	<div class="meta-row">
 		<span class="pill">📅 {new Date(data.berita.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
 		<span class="pill-orange">Berita</span>
+		{#if data.berita.profiles?.nama}
+			<span class="pill">👤 {data.berita.profiles.nama}</span>
+		{/if}
 	</div>
 	<h1 class="gradient-heading detail-title">{data.berita.judul}</h1>
 	{#if data.berita.ringkasan}
