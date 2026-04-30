@@ -9,7 +9,7 @@
 
 	onMount(async () => {
 		const { data: { session } } = await supabase.auth.getSession();
-		if (!session) { goto('/admin/login'); return; }
+		if (!session) { goto('/login'); return; }
 
 		const { data } = await supabase
 			.from('profiles')
@@ -17,13 +17,13 @@
 			.eq('id', session.user.id)
 			.single();
 
-		if (!data) { goto('/admin/login'); return; }
+		if (!data) { goto('/login'); return; }
 		profile = data;
 	});
 
 	async function logout() {
 		await supabase.auth.signOut();
-		goto('/admin/login');
+		goto('/login');
 	}
 </script>
 

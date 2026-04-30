@@ -11,7 +11,7 @@
 		e.preventDefault();
 		loading = true;
 		error = '';
-		const { error: err } = await supabase.auth.signInWithPassword({ email, password });
+		const { error } = await supabase.auth.signInWithPassword({ email, password });
 		if (err) {
 			error = 'Email atau password salah.';
 			loading = false;
