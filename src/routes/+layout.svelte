@@ -1,14 +1,22 @@
 <script lang="ts">
 	import '../app.css';
 	import { page } from '$app/stores';
+	import { supabase } from '$lib/supabase';
+	import { onMount } from 'svelte';
 
 	let { children } = $props();
 	let menuOpen = $state(false);
+	let kompOpen = $state(false);
+	let program = $state<{ id: number; nama: string; slug: string }[]>([]);
+
+	onMount(async () => {
+		const { data } = await supabase.from('program_keahlian').select('id, nama, slug').order('nama');
+		program = data ?? [];
+	});
 
 	const navLinks = [
 		{ href: '/', label: 'Beranda' },
 		{ href: '/profil', label: 'Profil' },
-		{ href: '/kompetensi', label: 'Kompetensi' },
 		{ href: '/berita', label: 'Berita' },
 		{ href: '/galeri', label: 'Galeri' },
 		{ href: '/kontak', label: 'Kontak' }
@@ -35,12 +43,28 @@
 
 			<!-- Desktop Nav -->
 			<nav class="desktop-nav">
-				{#each navLinks as link}
-					<a href={link.href}
-						class="nav-link {$page.url.pathname === link.href ? 'nav-link-active' : ''}">
-						{link.label}
+				<a href="/" class="nav-link {$page.url.pathname === '/' ? 'nav-link-active' : ''}">Beranda</a>
+				<a href="/profil" class="nav-link {$page.url.pathname === '/profil' ? 'nav-link-active' : ''}">Profil</a>
+
+				<!-- Kompetensi Dropdown -->
+				<div class="nav-dropdown" onmouseenter={() => kompOpen = true} onmouseleave={() => kompOpen = false}>
+					<a href="/kompetensi" class="nav-link nav-link-drop {$page.url.pathname.startsWith('/kompetensi') ? 'nav-link-active' : ''}">
+						Kompetensi <span class="drop-arrow">▾</span>
 					</a>
-				{/each}
+					{#if kompOpen && program.length > 0}
+						<div class="dropdown-menu">
+							<a href="/kompetensi" class="dropdown-item dropdown-all">Semua Kompetensi</a>
+							<div class="dropdown-divider"></div>
+							{#each program as p}
+								<a href="/kompetensi/{p.slug}" class="dropdown-item">{p.nama}</a>
+							{/each}
+						</div>
+					{/if}
+				</div>
+
+				<a href="/berita" class="nav-link {$page.url.pathname === '/berita' ? 'nav-link-active' : ''}">Berita</a>
+				<a href="/galeri" class="nav-link {$page.url.pathname === '/galeri' ? 'nav-link-active' : ''}">Galeri</a>
+				<a href="/kontak" class="nav-link {$page.url.pathname === '/kontak' ? 'nav-link-active' : ''}">Kontak</a>
 			</nav>
 
 			<!-- Hamburger -->
@@ -55,11 +79,13 @@
 		{#if menuOpen}
 			<nav class="mobile-nav">
 				{#each navLinks as link}
-					<a href={link.href}
-						class="nav-link {$page.url.pathname === link.href ? 'nav-link-active' : ''}"
-						onclick={() => (menuOpen = false)}>
-						{link.label}
-					</a>
+					<a href={link.href} class="nav-link {$page.url.pathname === link.href ? 'nav-link-active' : ''}" onclick={() => (menuOpen = false)}>{link.label}</a>
+				{/each}
+				<div class="mobile-divider"></div>
+				<p class="mobile-section">Kompetensi</p>
+				<a href="/kompetensi" class="nav-link" onclick={() => (menuOpen = false)}>Semua Kompetensi</a>
+				{#each program as p}
+					<a href="/kompetensi/{p.slug}" class="nav-link nav-link-sub" onclick={() => (menuOpen = false)}>{p.nama}</a>
 				{/each}
 			</nav>
 		{/if}
@@ -132,6 +158,30 @@
 
 	/* Desktop nav */
 	.desktop-nav { display: flex; align-items: center; gap: 0.25rem; }
+
+	/* Dropdown */
+	.nav-dropdown { position: relative; }
+	.nav-link-drop { display: flex; align-items: center; gap: 0.25rem; }
+	.drop-arrow { font-size: 0.65rem; opacity: 0.6; }
+	.dropdown-menu {
+		position: absolute; top: calc(100% + 0.5rem); left: 50%; transform: translateX(-50%);
+		background: white; border-radius: 0.85rem; padding: 0.5rem;
+		box-shadow: 0 8px 32px -4px rgba(15,23,42,0.15); border: 1px solid rgba(15,23,42,0.07);
+		min-width: 240px; z-index: 100;
+	}
+	.dropdown-item {
+		display: block; padding: 0.55rem 0.85rem; border-radius: 0.55rem;
+		font-size: 0.83rem; font-weight: 600; color: var(--muted); text-decoration: none;
+		transition: background 0.12s, color 0.12s;
+	}
+	.dropdown-item:hover { background: rgba(249,115,22,0.07); color: var(--ink); }
+	.dropdown-all { color: var(--orange-600) !important; font-weight: 700; }
+	.dropdown-divider { height: 1px; background: rgba(15,23,42,0.06); margin: 0.35rem 0; }
+
+	/* Mobile submenu */
+	.mobile-divider { height: 1px; background: rgba(15,23,42,0.06); margin: 0.35rem 0; }
+	.mobile-section { margin: 0.25rem 0.85rem 0.1rem; font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
+	.nav-link-sub { padding-left: 1.5rem !important; font-size: 0.82rem !important; }
 
 	/* Hamburger */
 	.hamburger-btn {
