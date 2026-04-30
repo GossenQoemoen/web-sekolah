@@ -12,8 +12,8 @@
 	<div class="meta-row">
 		<span class="pill">📅 {new Date(data.berita.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
 		<span class="pill-orange">Berita</span>
-		{#if data.berita.profiles?.nama}
-			<span class="pill">👤 {data.berita.profiles.nama}</span>
+		{#if data.berita.author_nama}
+			<span class="pill">👤 {data.berita.author_nama}</span>
 		{/if}
 		{#if data.berita.unit}
 			<span class="pill-unit">{data.berita.unit}</span>
